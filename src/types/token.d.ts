@@ -37,21 +37,33 @@ interface TrendingToken {
   };
 }
 
+// Search token from CoinGecko search API
+interface SearchToken {
+  id: string;
+  name: string;
+  symbol: string;
+  market_cap_rank: number;
+  thumb: string;
+  large: string;
+}
+
+// Unified token interface for display
+interface DisplayToken {
+  id: string;
+  name: string;
+  symbol: string;
+  image: string;
+  market_cap_rank: number;
+}
+
 // API response types
-// interface CoinGeckoMarketResponse extends Array<Token> {}
-// interface CoinGeckoTrendingResponse {
-//   coins: TrendingToken[];
-//   exchanges: any[];
-//   categories: any[];
-//   nfts: any[];
-// }s
 interface CoinGeckoSearchResponse {
-  coins: Array<{
-    id: string;
-    name: string;
-    symbol: string;
-    market_cap_rank: number;
-    thumb: string;
-    large: string;
-  }>;
+  coins: SearchToken[];
+}
+
+interface CoinGeckoTrendingResponse {
+  coins: TrendingToken[];
+  exchanges: unknown[];
+  categories: unknown[];
+  nfts: unknown[];
 }

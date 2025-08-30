@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { localStorageService } from "../../services/localStorage";
+import { localStorageService } from "@/services/localStorage";
 
 // Load initial state from localStorage
 const loadInitialState = (): WatchListState => {

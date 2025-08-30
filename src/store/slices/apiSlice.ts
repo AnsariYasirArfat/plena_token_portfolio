@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { COINGECKO_API_BASE_URL } from '../../utils/constants';
+import { COINGECKO_API_BASE_URL } from '@/utils/constants';
 
-// Define the API slice using RTK Query
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ 
@@ -10,13 +9,14 @@ export const apiSlice = createApi({
   }),
   tagTypes: ['Token', 'Trending', 'Search'],
   endpoints: (builder) => ({
-    // Get market data for tokens (with sparklines)
+   
     getMarketData: builder.query<Token[], { 
       page?: number; 
       perPage?: number; 
       sparkline?: boolean;
+      ids?: string[]; 
     }>({
-      query: ({ page = 1, perPage = 100, sparkline = true }) => ({
+      query: ({ page = 1, perPage = 100, sparkline = true, ids }) => ({
         url: '/coins/markets',
         params: {
           vs_currency: 'usd',
@@ -25,13 +25,15 @@ export const apiSlice = createApi({
           page: page,
           sparkline: sparkline,
           price_change_percentage: '24h',
+          ...(ids && { ids: ids.join(',') }), 
         },
       }),
-      providesTags: ['Token'],
+      providesTags: (_result, _error, { ids }) => 
+        ids ? ids.map(id => ({ type: 'Token', id })) : ['Token'],
     }),
 
     // Get trending tokens
-    getTrendingTokens: builder.query<{ coins: TrendingToken[] }, void>({
+    getTrendingTokens: builder.query<CoinGeckoTrendingResponse, void>({
       query: () => '/search/trending',
       providesTags: ['Trending'],
     }),
@@ -45,7 +47,6 @@ export const apiSlice = createApi({
       providesTags: ['Search'],
     }),
 
-    // Get specific token data (for sparklines and detailed info)
     getTokenData: builder.query<Token, { id: string }>({
       query: ({ id }) => ({
         url: `/coins/${id}`,
@@ -58,12 +59,11 @@ export const apiSlice = createApi({
           sparkline: true,
         },
       }),
-      providesTags: (result, error, { id }) => [{ type: 'Token', id }],
+      providesTags: (_result, _error, { id }) => [{ type: 'Token', id }],
     }),
   }),
 });
 
-// Export hooks for use in components
 export const {
   useGetMarketDataQuery,
   useGetTrendingTokensQuery,

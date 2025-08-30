@@ -1,64 +1,45 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { localStorageService } from '../../services/localStorage';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-// Load initial wallet state from localStorage
-const loadInitialWalletState = () => {
-  return localStorageService.wallet.loadConnectionState();
+interface WalletState {
+  isConnected: boolean;
+  address: string | null;
+  chainId: number | null;
+  balance: string | null;
+}
+
+const initialState: WalletState = {
+  isConnected: false,
+  address: null,
+  chainId: null,
+  balance: null,
 };
 
 const walletSlice = createSlice({
-  name: 'wallet',
-  initialState: {
-    isConnected: loadInitialWalletState(),
-    address: null as string | null,
-    chainId: null as number | null,
-    isLoading: false,
-    error: null as string | null,
-  },
+  name: "wallet",
+  initialState,
   reducers: {
-    // Connect wallet
-    connectWallet: (state, action: PayloadAction<{ address: string; chainId: number }>) => {
-      state.isConnected = true;
-      state.address = action.payload.address;
-      state.chainId = action.payload.chainId;
-      state.error = null;
-      
-      localStorageService.wallet.saveConnectionState(true);
+    setWalletConnection: (
+      state,
+      action: PayloadAction<{
+        isConnected: boolean;
+        address?: string;
+        chainId?: number;
+        balance?: string;
+      }>
+    ) => {
+      state.isConnected = action.payload.isConnected;
+      if (action.payload.address) state.address = action.payload.address;
+      if (action.payload.chainId) state.chainId = action.payload.chainId;
+      if (action.payload.balance) state.balance = action.payload.balance;
     },
-
-    // Disconnect wallet
     disconnectWallet: (state) => {
       state.isConnected = false;
       state.address = null;
       state.chainId = null;
-      state.error = null;
-      
-      localStorageService.wallet.clearConnectionState();
-    },
-
-    // Set loading state
-    setWalletLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
-    },
-
-    // Set error state
-    setWalletError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-
-    // Update wallet address
-    updateWalletAddress: (state, action: PayloadAction<string>) => {
-      state.address = action.payload;
+      state.balance = null;
     },
   },
 });
 
-export const {
-  connectWallet,
-  disconnectWallet,
-  setWalletLoading,
-  setWalletError,
-  updateWalletAddress,
-} = walletSlice.actions;
-
+export const { setWalletConnection, disconnectWallet } = walletSlice.actions;
 export default walletSlice.reducer;

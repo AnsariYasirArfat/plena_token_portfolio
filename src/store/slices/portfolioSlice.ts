@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
   calculatePortfolioTotal,
   getLastUpdatedTime,
-} from "../../utils/helpers";
+} from "@/utils/helpers";
 
 const portfolioSlice = createSlice({
   name: "portfolio",
