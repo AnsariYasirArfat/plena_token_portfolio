@@ -74,7 +74,7 @@ const WatchlistRow: React.FC<WatchlistRowProps> = ({
           />
           <p className="font-medium text-plena-text truncate">
             {token.name}
-            <span className="text-sm text-plena-muted">
+            <span className="ml-1 text-sm text-plena-muted">
               {`(${token.symbol.toUpperCase()})`}
             </span>
           </p>

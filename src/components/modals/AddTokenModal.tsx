@@ -8,14 +8,8 @@ import {
 } from "@/store/slices/apiSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Star, Check, Plus } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Star, Plus, Check } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDebounce } from "@/hooks/useDebounce";
 
 const normalizeToken = (token: TrendingToken | SearchToken): DisplayToken => {
@@ -90,12 +84,6 @@ const AddTokenModal: React.FC = () => {
     }
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
-    setSelectedTokenIds([]);
-    setSearchQuery("");
-  };
-
   const getDisplayTokens = (): DisplayToken[] => {
     if (debouncedSearch && searchData?.coins) {
       return searchData.coins.map(normalizeToken);
@@ -110,121 +98,121 @@ const AddTokenModal: React.FC = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={"plena"}>
+        <Button variant="plena">
           <Plus className="h-4 w-4" />
           Add Token
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="bg-plena-component border-border max-w-2xl max-h-[80vh] overflow-hidden">
-        <DialogHeader>
-          <DialogTitle className="text-plena-text">Add Token</DialogTitle>
-        </DialogHeader>
+      <DialogContent
+        className="bg-plena-base border border-white/8 rounded-lg w-full h-full max-w-xl max-h-[480px] p-0 overflow-hidden flex flex-col "
+        showCloseButton={false}
+      >
+        {/* Search Input - No Header */}
+        <div className="border-b border-white/8">
+          <Input
+            id="search-tokens"
+            placeholder="Search tokens (e.g., ETH, SOL)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className=" text-plena-text placeholder:text-plena-muted h-12 text-base   focus-visible:ring-0 border-none focus-visible:border-none"
+          />
+        </div>
 
-        <div className="space-y-4">
-          {/* Search Input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-plena-muted" />
-            <Input
-              placeholder="Search tokens (e.g., ETH, SOL)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background border-border text-plena-text placeholder:text-plena-muted"
-            />
-          </div>
+        {/* Token List - Scrollable Area */}
+        <div className="flex-1 overflow-hidden px-2">
+          {debouncedSearch && searchLoading ? (
+            <div className="flex items-center justify-center h-full text-plena-muted">
+              Searching...
+            </div>
+          ) : trendingLoading ? (
+            <div className="flex items-center justify-center h-full text-plena-muted">
+              Loading trending tokens...
+            </div>
+          ) : displayTokens.length === 0 ? (
+            <div className="flex items-center justify-center h-full text-plena-muted">
+              {debouncedSearch
+                ? "No tokens found"
+                : "No trending tokens available"}
+            </div>
+          ) : (
+            <div className="h-full overflow-y-auto">
+              {!debouncedSearch && (
+                <div className="text-sm font-medium text-plena-muted mb-4 sticky top-0 p-2 bg-plena-base">
+                  Trending
+                </div>
+              )}
 
-          {/* Token List */}
-          <div className="max-h-96 overflow-y-auto space-y-2">
-            {debouncedSearch && searchLoading ? (
-              <div className="text-center py-8 text-plena-muted">
-                Searching...
-              </div>
-            ) : trendingLoading ? (
-              <div className="text-center py-8 text-plena-muted">
-                Loading trending tokens...
-              </div>
-            ) : displayTokens.length === 0 ? (
-              <div className="text-center py-8 text-plena-muted">
-                {debouncedSearch
-                  ? "No tokens found"
-                  : "No trending tokens available"}
-              </div>
-            ) : (
-              <>
-                {!debouncedSearch && (
-                  <div className="text-sm font-medium text-plena-muted mb-3">
-                    Trending
-                  </div>
-                )}
-
-                {displayTokens.map((token) => (
-                  <div
-                    key={token.id}
-                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
-                      selectedTokenIds.includes(token.id)
-                        ? "bg-plena-lime/10 border-plena-lime"
-                        : "bg-background border-border hover:bg-plena-base"
-                    }`}
-                    onClick={() => handleTokenSelect(token.id)}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <img
-                        src={token.image}
-                        alt={token.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <div>
-                        <div className="font-medium text-plena-text">
+              <div className="space-y-2 pb-4">
+                {displayTokens.map((token) => {
+                  const isSelected = selectedTokenIds.includes(token.id);
+                  return (
+                    <div
+                      key={token.id}
+                      className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-all duration-200 ${
+                        isSelected
+                          ? "bg-plena-lime/10 "
+                          : "bg-transparent hover:bg-plena-base/50"
+                      }`}
+                      onClick={() => handleTokenSelect(token.id)}
+                    >
+                      <div className="w-full flex items-center space-x-3 ">
+                        <img
+                          src={token.image}
+                          alt={token.name}
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <p className="font-medium text-plena-text truncate">
                           {token.name}
-                        </div>
-                        <div className="text-sm text-plena-muted">
-                          {token.symbol.toUpperCase()}
-                        </div>
+                          <span className="ml-1 text-sm text-plena-muted">
+                            {`(${token.symbol.toUpperCase()})`}
+                          </span>
+                        </p>
                       </div>
-                    </div>
 
-                    <div className="flex items-center space-x-2">
-                      {selectedTokenIds.includes(token.id) && (
-                        <>
-                          <Star className="h-4 w-4 text-yellow-500" />
-                          <Check className="h-4 w-4 text-plena-lime" />
-                        </>
-                      )}
-                      <div
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          selectedTokenIds.includes(token.id)
-                            ? "bg-plena-lime border-plena-lime"
-                            : "border-border"
-                        }`}
-                      >
-                        {selectedTokenIds.includes(token.id) && (
-                          <div className="w-full h-full bg-plena-lime rounded-full" />
+                      <div className="flex items-center space-x-2">
+                        {isSelected && (
+                          <Star
+                            className="h-4 w-4 text-plena-lime"
+                            fill="var(--color-plena-lime)"
+                          />
                         )}
+                        <div
+                          className={`w-4 h-4 rounded-full  flex items-center justify-center ${
+                            isSelected
+                              ? "bg-plena-lime "
+                              : "border-2 border-plena-muted"
+                          }`}
+                        >
+                          {isSelected && (
+                            <Check className="w-3 h-3 rounded-full" />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
 
-          {/* Footer */}
-          <div className="flex justify-end space-x-3 pt-4 border-t border-border">
-            <Button variant="outline" onClick={handleClose}>
-              Cancel
-            </Button>
+        {/* Footer - Single Button */}
+        <div className="p-3 border-t border-white/8 bg-plena-component">
+          <div className="flex justify-end">
             <Button
+              variant={"plena"}
               onClick={handleAddToWatchlist}
               disabled={selectedTokenIds.length === 0 || selectedTokensLoading}
-              className="bg-plena-lime text-plena-base hover:bg-plena-lime/90"
+              className="disabled:bg-transparent disabled:text-plena-muted disabled:border-plena-muted"
             >
               {selectedTokensLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-plena-base border-t-transparent rounded-full animate-spin mr-2" />
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
                   Adding...
                 </>
               ) : (
-                `Add to Watchlist (${selectedTokenIds.length})`
+                "Add to Wishlist"
               )}
             </Button>
           </div>
