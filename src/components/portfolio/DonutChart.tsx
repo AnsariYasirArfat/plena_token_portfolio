@@ -16,7 +16,7 @@ const DonutChart: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <h2 className="text-sm font-medium text-muted-foreground">
+      <h2 className="text-sm font-medium text-plena-muted">
         Portfolio Total
       </h2>
 
@@ -52,7 +52,7 @@ const DonutChart: React.FC = () => {
               <span className="text-sm font-medium " style={{ color: token.color }}>
                 {formatTokenName(token.name, token.symbol)}
               </span>
-              <span className="text-sm font-medium text-muted-foreground">
+              <span className="text-sm font-medium text-plena-muted">
                 {formatPercentage(token.percentage)}
               </span>
             </div>

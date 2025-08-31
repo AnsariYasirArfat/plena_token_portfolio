@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "@/store/hook";
 import { addTokens } from "@/store/slices/watchlistSlice";
-import { useGetTrendingTokensQuery, useSearchTokensQuery, useGetMarketDataQuery } from "@/store/slices/apiSlice";
+import {
+  useGetTrendingTokensQuery,
+  useSearchTokensQuery,
+  useGetMarketDataQuery,
+} from "@/store/slices/apiSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Star, Check, Plus } from "lucide-react";
@@ -15,7 +19,7 @@ import {
 import { useDebounce } from "@/hooks/useDebounce";
 
 const normalizeToken = (token: TrendingToken | SearchToken): DisplayToken => {
-  if ('item' in token) {
+  if ("item" in token) {
     // TrendingToken
     return {
       id: token.item.id,
@@ -41,12 +45,13 @@ const AddTokenModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTokenIds, setSelectedTokenIds] = useState<string[]>([]);
-  
+
   const debouncedSearch = useDebounce(searchQuery, 500);
-  
+
   // Get trending tokens
-  const { data: trendingData, isLoading: trendingLoading } = useGetTrendingTokensQuery();
-  
+  const { data: trendingData, isLoading: trendingLoading } =
+    useGetTrendingTokensQuery();
+
   // Search tokens
   const { data: searchData, isLoading: searchLoading } = useSearchTokensQuery(
     { query: debouncedSearch },
@@ -54,15 +59,16 @@ const AddTokenModal: React.FC = () => {
   );
 
   // Get full token data for selected tokens
-  const { data: selectedTokensData, isLoading: selectedTokensLoading } = useGetMarketDataQuery(
-    { ids: selectedTokenIds, sparkline: true },
-    { skip: selectedTokenIds.length === 0 }
-  );
+  const { data: selectedTokensData, isLoading: selectedTokensLoading } =
+    useGetMarketDataQuery(
+      { ids: selectedTokenIds, sparkline: true },
+      { skip: selectedTokenIds.length === 0 }
+    );
 
   const handleTokenSelect = (tokenId: string) => {
-    setSelectedTokenIds(prev => 
-      prev.includes(tokenId) 
-        ? prev.filter(id => id !== tokenId)
+    setSelectedTokenIds((prev) =>
+      prev.includes(tokenId)
+        ? prev.filter((id) => id !== tokenId)
         : [...prev, tokenId]
     );
   };
@@ -75,9 +81,9 @@ const AddTokenModal: React.FC = () => {
         value: 0,
         percentage: 0,
       }));
-      
+
       dispatch(addTokens(tokensWithHoldings));
-      
+
       setIsOpen(false);
       setSelectedTokenIds([]);
       setSearchQuery("");
@@ -104,53 +110,53 @@ const AddTokenModal: React.FC = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="bg-plena-lime text-plena-base hover:bg-plena-lime/90"
-        >
-          <Plus className="h-4 w-4 mr-2" />
+        <Button variant={"plena"}>
+          <Plus className="h-4 w-4" />
           Add Token
         </Button>
       </DialogTrigger>
-      
+
       <DialogContent className="bg-plena-component border-border max-w-2xl max-h-[80vh] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-white">Add Token</DialogTitle>
+          <DialogTitle className="text-plena-text">Add Token</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           {/* Search Input */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-plena-muted" />
             <Input
               placeholder="Search tokens (e.g., ETH, SOL)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background border-border text-white placeholder:text-muted-foreground"
+              className="pl-10 bg-background border-border text-plena-text placeholder:text-plena-muted"
             />
           </div>
 
           {/* Token List */}
           <div className="max-h-96 overflow-y-auto space-y-2">
             {debouncedSearch && searchLoading ? (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-8 text-plena-muted">
                 Searching...
               </div>
             ) : trendingLoading ? (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-8 text-plena-muted">
                 Loading trending tokens...
               </div>
             ) : displayTokens.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                {debouncedSearch ? "No tokens found" : "No trending tokens available"}
+              <div className="text-center py-8 text-plena-muted">
+                {debouncedSearch
+                  ? "No tokens found"
+                  : "No trending tokens available"}
               </div>
             ) : (
               <>
                 {!debouncedSearch && (
-                  <div className="text-sm font-medium text-muted-foreground mb-3">
+                  <div className="text-sm font-medium text-plena-muted mb-3">
                     Trending
                   </div>
                 )}
-                
+
                 {displayTokens.map((token) => (
                   <div
                     key={token.id}
@@ -166,18 +172,17 @@ const AddTokenModal: React.FC = () => {
                         src={token.image}
                         alt={token.name}
                         className="w-8 h-8 rounded-full"
-                        onError={(e) => {
-                          e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23666'/%3E%3C/svg%3E";
-                        }}
                       />
                       <div>
-                        <div className="font-medium text-white">{token.name}</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="font-medium text-plena-text">
+                          {token.name}
+                        </div>
+                        <div className="text-sm text-plena-muted">
                           {token.symbol.toUpperCase()}
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       {selectedTokenIds.includes(token.id) && (
                         <>
@@ -185,11 +190,13 @@ const AddTokenModal: React.FC = () => {
                           <Check className="h-4 w-4 text-plena-lime" />
                         </>
                       )}
-                      <div className={`w-4 h-4 rounded-full border-2 ${
-                        selectedTokenIds.includes(token.id)
-                          ? "bg-plena-lime border-plena-lime"
-                          : "border-border"
-                      }`}>
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 ${
+                          selectedTokenIds.includes(token.id)
+                            ? "bg-plena-lime border-plena-lime"
+                            : "border-border"
+                        }`}
+                      >
                         {selectedTokenIds.includes(token.id) && (
                           <div className="w-full h-full bg-plena-lime rounded-full" />
                         )}

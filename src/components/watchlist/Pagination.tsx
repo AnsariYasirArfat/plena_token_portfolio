@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { TableFooter, TableRow, TableCell } from "@/components/ui/table";
 
 interface PaginationProps {
   pagination: PaginationParams;
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pagination, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  pagination,
+  onPageChange,
+}) => {
   const { page, perPage, total } = pagination;
   const totalPages = Math.ceil(total / perPage);
   const startItem = (page - 1) * perPage + 1;
@@ -26,39 +29,43 @@ const Pagination: React.FC<PaginationProps> = ({ pagination, onPageChange }) => 
   };
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-      <div className="text-sm text-muted-foreground">
-        {startItem} - {endItem} of {total} results
-      </div>
-      
-      <div className="flex items-center space-x-2">
-        <span className="text-sm text-muted-foreground">
-          {page} of {totalPages} pages
-        </span>
-        
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handlePrevious}
-          disabled={page <= 1}
-          className="border-border text-muted-foreground hover:bg-plena-component"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Prev
-        </Button>
-        
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleNext}
-          disabled={page >= totalPages}
-          className="border-border text-muted-foreground hover:bg-plena-component"
-        >
-          Next
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
+    <TableFooter className="bg-transparent !border-white/8">
+      <TableRow className="hover:bg-transparent">
+        <TableCell colSpan={7} className="px-4 py-3 border-t border-white/8">
+          <div className="flex items-center justify-between w-full">
+            <div className="text-sm text-plena-muted">
+              {startItem} - {endItem} of {total} results
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-plena-muted">
+                {page} of {totalPages} pages
+              </span>
+
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={handlePrevious}
+                disabled={page <= 1}
+                className="text-plena-muted hover:text-plena-muted hover:bg-plena-component"
+              >
+                Prev
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleNext}
+                disabled={page >= totalPages}
+                className="text-plena-muted hover:text-plena-muted hover:bg-plena-component"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </TableCell>
+      </TableRow>
+    </TableFooter>
   );
 };
 

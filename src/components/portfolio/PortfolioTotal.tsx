@@ -10,15 +10,15 @@ const PortfolioTotal: React.FC = () => {
   return (
     <div className="flex flex-col justify-between gap-4">
       <div className="flex flex-col gap-4">
-        <p className="text-sm font-medium text-muted-foreground ">
+        <p className="text-sm font-medium text-plena-muted">
           Portfolio Total
         </p>
-        <p className="text-5xl sm:text-6xl font-medium text-white">
+        <p className="text-5xl sm:text-6xl font-medium text-plena-text">
           {formatCurrency(totalValue)}
         </p>
       </div>
 
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-plena-muted">
         Last updated: {lastUpdated}
       </p>
     </div>

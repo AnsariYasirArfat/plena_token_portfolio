@@ -41,7 +41,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Custom color */
+  --color-plena-text: #f4f4f5; 
+  --color-plena-muted: #a1a1aa;
   --color-plena-lime: #a9e851;
+  --color-plena-green: #1f6619;
   --color-plena-base: #212124;
   --color-plena-component: #27272a;
 }

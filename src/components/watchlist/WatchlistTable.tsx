@@ -75,87 +75,96 @@ const WatchlistTable: React.FC = () => {
   const paginatedTokens = tokens.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-plena-component rounded-lg border border-border">
+    <div className="flex flex-col gap-4 mx-4 sm:mx-6 mb-4 sm:mb-6">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap   p-6 border-b border-border">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center space-x-2">
-          <Star className="h-5 w-5 text-plena-lime" />
-          <h2 className="text-lg font-semibold text-white">Watchlist</h2>
+          <Star
+            className="h-5 w-5 text-plena-lime"
+            fill="var(--color-plena-lime)"
+          />
+          <h2 className="text-lg font-medium text-plena-text">Watchlist</h2>
         </div>
 
-        <div className="flex items-center  flex-wrap space-x-3">
+        <div className="flex items-center flex-wrap gap-3 ml-auto">
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={handleRefreshPrices}
             disabled={isRefreshing || tokens.length === 0}
-            className="border-border text-muted-foreground hover:bg-plena-base"
+            className="text-plena-text hover:text-plena-text bg-plena-component hover:bg-white/5"
           >
             <RefreshCw
-              className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`}
+              className={`h-4 w-4  text-plena-muted ${
+                isRefreshing ? "animate-spin" : ""
+              }`}
             />
-            {isRefreshing ? "Refreshing..." : "Refresh Prices"}
+            <span className="hidden sm:block">
+              {isRefreshing ? "Refreshing..." : "Refresh Prices"}
+            </span>
           </Button>
 
           <AddTokenModal />
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-border hover:bg-transparent">
-              <TableHead className="text-left py-4 px-4 font-medium text-muted-foreground">
-                Token
-              </TableHead>
-              <TableHead className="text-right py-4 px-4 font-medium text-muted-foreground">
-                Price
-              </TableHead>
-              <TableHead className="text-right py-4 px-4 font-medium text-muted-foreground">
-                24h %
-              </TableHead>
-              <TableHead className="text-center py-4 px-4 font-medium text-muted-foreground">
-                Sparkline (7d)
-              </TableHead>
-              <TableHead className="text-right py-4 px-4 font-medium text-muted-foreground">
-                Holdings
-              </TableHead>
-              <TableHead className="text-right py-4 px-4 font-medium text-muted-foreground">
-                Value
-              </TableHead>
-              <TableHead className="text-center py-4 px-4 font-medium text-muted-foreground">
-                Actions
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedTokens.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="text-center py-8 text-muted-foreground"
-                >
-                  No tokens in watchlist. Add some tokens to get started!
-                </TableCell>
+      <div className="border border-white/8 rounded-lg overflow-hidden">
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-plena-component border-b !border-white/8">
+              <TableRow className="hover:bg-plena-component">
+                <TableHead className="text-left py-4 px-4 font-medium text-plena-muted">
+                  Token
+                </TableHead>
+                <TableHead className="py-4 px-4 font-medium text-plena-muted">
+                  Price
+                </TableHead>
+                <TableHead className="py-4 px-4 font-medium text-plena-muted">
+                  24h %
+                </TableHead>
+                <TableHead className=" py-4 px-4 font-medium text-plena-muted">
+                  Sparkline (7d)
+                </TableHead>
+                <TableHead className="py-4 px-4 font-medium text-plena-muted">
+                  Holdings
+                </TableHead>
+                <TableHead className="py-4 px-4 font-medium text-plena-muted">
+                  Value
+                </TableHead>
+                <TableHead>{/* Actions */}</TableHead>
               </TableRow>
-            ) : (
-              paginatedTokens.map((token) => (
-                <WatchlistRow
-                  key={token.id}
-                  token={token}
-                  onUpdateHoldings={handleUpdateHoldings}
-                  onRemoveToken={handleRemoveToken}
-                />
-              ))
+            </TableHeader>
+            <TableBody>
+              {paginatedTokens.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={7}
+                    className="text-center py-8 text-plena-muted"
+                  >
+                    No tokens in watchlist. Add some tokens to get started!
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedTokens.map((token) => (
+                  <WatchlistRow
+                    key={token.id}
+                    token={token}
+                    onUpdateHoldings={handleUpdateHoldings}
+                    onRemoveToken={handleRemoveToken}
+                  />
+                ))
+              )}
+            </TableBody>
+            {/* Pagination */}
+            {tokens.length > 0 && (
+              <Pagination
+                pagination={pagination}
+                onPageChange={handlePageChange}
+              />
             )}
-          </TableBody>
-        </Table>
+          </Table>
+        </div>
       </div>
-
-      {/* Pagination */}
-      {tokens.length > 0 && (
-        <Pagination pagination={pagination} onPageChange={handlePageChange} />
-      )}
     </div>
   );
 };

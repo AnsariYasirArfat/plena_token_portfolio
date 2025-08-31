@@ -49,8 +49,9 @@ const WalletConnect: React.FC = () => {
               if (!mounted || !account || !chain) {
                 return (
                   <Button
+                    variant={"plena"}
                     onClick={openConnectModal}
-                    className="bg-plena-lime text-plena-base hover:bg-plena-lime/90 rounded-full border border-[#1f6619]"
+                    className=" rounded-full"
                   >
                     <PlenaWallet />
                     Connect Wallet
@@ -62,7 +63,7 @@ const WalletConnect: React.FC = () => {
                 return (
                   <Button
                     onClick={openChainModal}
-                    className="bg-red-500 text-white hover:bg-red-600"
+                    className="bg-red-500 text-plena-text hover:bg-red-600"
                   >
                     Wrong network
                   </Button>

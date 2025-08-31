@@ -19,7 +19,7 @@ const App: React.FC = () => {
   }, [dispatch, tokens]);
 
   return (
-    <div className="min-h-screen bg-plena-base">
+    <div className="min-h-screen bg-plena-base flex flex-col gap-8">
       {/* Header */}
       <Header />
       

@@ -8,7 +8,7 @@ const Header: React.FC = () => {
       {/* Logo and Title */}
       <div className="flex items-center space-x-3">
         <TokenLogo />
-        <h1 className="text-lg font-semibold text-white">Token Portfolio</h1>
+        <h1 className="text-lg font-semibold text-plena-text">Token Portfolio</h1>
       </div>
 
       {/* Wallet Connect Button */}
