@@ -16,16 +16,58 @@ export const calculatePortfolioTotal = (
 export const calculateTokenDistribution = (
   tokens: TokenWithHoldings[]
 ): TokenDistribution[] => {
+  if (tokens.length === 0) {
+    return [];
+  }
+
   const totalValue = calculatePortfolioTotal(tokens);
 
-  return tokens.map((token, index) => ({
+  // Calculate percentage for each token
+  const tokensWithPercentage = tokens.map((token, index) => ({
+    ...token,
+    percentage: totalValue > 0 ? (token.value / totalValue) * 100 : 0,
+    color: CHART_COLORS[index % CHART_COLORS.length],
+  }));
+
+  // Sort by percentage (highest first)
+  const sortedTokens = tokensWithPercentage.sort(
+    (a, b) => b.percentage - a.percentage
+  );
+
+  // Take top 5 tokens
+  const top5Tokens = sortedTokens.slice(0, 5);
+
+  // Calculate "Other" from remaining tokens
+  const otherTokens = sortedTokens.slice(5);
+  const otherPercentage = otherTokens.reduce(
+    (sum, token) => sum + token.percentage,
+    0
+  );
+  const otherValue = otherTokens.reduce((sum, token) => sum + token.value, 0);
+
+  // Create distribution array
+  const distribution: TokenDistribution[] = top5Tokens.map((token, index) => ({
     tokenId: token.id,
     symbol: token.symbol,
     name: token.name,
-    percentage: totalValue > 0 ? (token.value / totalValue) * 100 : 0,
+    percentage: token.percentage,
     value: token.value,
     color: CHART_COLORS[index % CHART_COLORS.length],
   }));
+
+  // Add "Other" category if there are more than 5 tokens
+  if (otherTokens.length > 0) {
+    distribution.push({
+      tokenId: "other",
+      symbol: "",
+      name: "Other",
+      percentage: otherPercentage,
+      value: otherValue,
+      color: CHART_COLORS[CHART_COLORS.length - 1],
+    });
+  }
+
+  return distribution;
 };
 
 export const formatCurrency = (value: number): string => {

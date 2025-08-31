@@ -1,8 +1,9 @@
-import React from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button } from '@/components/ui/button';
-import { Wallet, LogOut } from 'lucide-react';
+import React from "react";
+import { useAccount, useDisconnect } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import PlenaWallet from "@/assets/svg/PlenaWallet";
 
 const WalletConnect: React.FC = () => {
   const { address, isConnected } = useAccount();
@@ -12,7 +13,8 @@ const WalletConnect: React.FC = () => {
     return (
       <div className="flex items-center space-x-3">
         <div className="flex items-center space-x-2 px-3 py-2 bg-plena-component rounded-lg">
-          <Wallet className="w-4 h-4 text-plena-lime" />
+          <PlenaWallet />
+
           <span className="text-sm font-medium text-plena-text">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
@@ -31,21 +33,15 @@ const WalletConnect: React.FC = () => {
 
   return (
     <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openChainModal,
-        openConnectModal,
-        mounted,
-      }) => {
+      {({ account, chain, openChainModal, openConnectModal, mounted }) => {
         return (
           <div
             {...(!mounted && {
-              'aria-hidden': true,
-              'style': {
+              "aria-hidden": true,
+              style: {
                 opacity: 0,
-                pointerEvents: 'none',
-                userSelect: 'none',
+                pointerEvents: "none",
+                userSelect: "none",
               },
             })}
           >
@@ -54,9 +50,9 @@ const WalletConnect: React.FC = () => {
                 return (
                   <Button
                     onClick={openConnectModal}
-                    className="bg-plena-lime text-plena-base hover:bg-plena-lime/90"
+                    className="bg-plena-lime text-plena-base hover:bg-plena-lime/90 rounded-full border border-[#1f6619]"
                   >
-                    <Wallet className="w-4 h-4 mr-2" />
+                    <PlenaWallet />
                     Connect Wallet
                   </Button>
                 );
@@ -87,13 +83,13 @@ const WalletConnect: React.FC = () => {
                           width: 12,
                           height: 12,
                           borderRadius: 999,
-                          overflow: 'hidden',
+                          overflow: "hidden",
                           marginRight: 4,
                         }}
                       >
                         {chain.iconUrl && (
                           <img
-                            alt={chain.name ?? 'Chain icon'}
+                            alt={chain.name ?? "Chain icon"}
                             src={chain.iconUrl}
                             style={{ width: 12, height: 12 }}
                           />
@@ -104,9 +100,11 @@ const WalletConnect: React.FC = () => {
                   </Button>
 
                   <div className="flex items-center space-x-2 px-3 py-2 bg-plena-component rounded-lg">
-                    <Wallet className="w-4 h-4 text-plena-lime" />
+                    <PlenaWallet />
+
                     <span className="text-sm font-medium text-plena-text">
-                      {account.address.slice(0, 6)}...{account.address.slice(-4)}
+                      {account.address.slice(0, 6)}...
+                      {account.address.slice(-4)}
                     </span>
                   </div>
                 </div>

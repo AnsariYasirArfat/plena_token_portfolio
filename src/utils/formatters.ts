@@ -1,7 +1,10 @@
 // Data formatting utilities
-export const formatTokenName = (name: string, symbol: string): string => {
-  return `${name} (${symbol.toUpperCase()})`;
+export const formatTokenName = (name: string, symbol?: string): string => {
+  return symbol && symbol.trim()
+    ? `${name} (${symbol.toUpperCase()})`
+    : name;
 };
+
 
 export const formatPrice = (price: number): string => {
   if (price >= 1) {
@@ -41,8 +44,6 @@ export const formatHoldings = (holdings: number): string => {
   }
 };
 
-// Add the missing formatPercentage function
 export const formatPercentage = (value: number): string => {
-  const sign = value >= 0 ? '+' : '';
-  return `${sign}${value.toFixed(2)}%`;
+  return `${value.toFixed(1)}%`;
 };

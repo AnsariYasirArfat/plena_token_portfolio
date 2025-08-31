@@ -19,12 +19,12 @@ const App: React.FC = () => {
   }, [dispatch, tokens]);
 
   return (
-    <div className="min-h-screen bg-plena-base text-white">
+    <div className="min-h-screen bg-plena-base">
       {/* Header */}
       <Header />
       
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="flex flex-col gap-8 sm:gap-12">
         {/* Portfolio Summary */}
         <PortfolioSummary />
         

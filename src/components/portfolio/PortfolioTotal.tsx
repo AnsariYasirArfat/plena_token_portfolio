@@ -1,23 +1,24 @@
-import React from 'react';
-import { useAppSelector } from '@/store/hook';
-import { formatCurrency } from '@/utils/helpers';
+import React from "react";
+import { useAppSelector } from "@/store/hook";
+import { formatCurrency } from "@/utils/helpers";
 
 const PortfolioTotal: React.FC = () => {
-  const { totalValue, lastUpdated } = useAppSelector(state => state.portfolio);
+  const { totalValue, lastUpdated } = useAppSelector(
+    (state) => state.portfolio
+  );
 
   return (
-    <div className="bg-plena-component rounded-lg p-6 border border-border">
-      <h2 className="text-sm font-medium text-muted-foreground mb-2">
-        Portfolio Total
-      </h2>
-      
-      <div className="mb-2">
-        <span className="text-3xl font-bold text-white">
+    <div className="flex flex-col justify-between gap-4">
+      <div className="flex flex-col gap-4">
+        <p className="text-sm font-medium text-muted-foreground ">
+          Portfolio Total
+        </p>
+        <p className="text-5xl sm:text-6xl font-medium text-white">
           {formatCurrency(totalValue)}
-        </span>
+        </p>
       </div>
-      
-      <p className="text-xs text-muted-foreground">
+
+      <p className="text-sm text-muted-foreground">
         Last updated: {lastUpdated}
       </p>
     </div>

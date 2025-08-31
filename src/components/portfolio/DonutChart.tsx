@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "@/store/hook";
 import { calculateTokenDistribution } from "@/utils/helpers";
-import { formatPercentage } from "@/utils/formatters";
+import { formatPercentage, formatTokenName } from "@/utils/formatters";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const DonutChart: React.FC = () => {
@@ -9,20 +9,20 @@ const DonutChart: React.FC = () => {
   const distribution = calculateTokenDistribution(tokens);
 
   const chartData = distribution.map((token) => ({
-    name: `${token.name} (${token.symbol})`,
+    name: token.name,
     value: token.percentage,
     color: token.color,
   }));
 
   return (
-    <div className="bg-plena-component rounded-lg p-6 border border-border">
-      <h2 className="text-sm font-medium text-muted-foreground mb-4">
+    <div className="flex flex-col gap-5">
+      <h2 className="text-sm font-medium text-muted-foreground">
         Portfolio Total
       </h2>
 
-      <div className="flex items-center space-x-6">
+      <div className="flex flex-col sm:flex-row flex-wrap  gap-5">
         {/* Donut Chart */}
-        <div className="w-40 h-40">
+        <div className="w-40 h-40 mx-auto">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -30,7 +30,7 @@ const DonutChart: React.FC = () => {
                 cx="50%"
                 cy="50%"
                 innerRadius={40}
-                outerRadius={60}
+                outerRadius={80}
                 paddingAngle={2}
                 dataKey="value"
               >
@@ -43,22 +43,16 @@ const DonutChart: React.FC = () => {
         </div>
 
         {/* Legend */}
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 flex flex-col gap-4">
           {distribution.map((token, index) => (
             <div
               key={token.tokenId + index}
               className="flex items-center justify-between"
             >
-              <div className="flex items-center space-x-2">
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: token.color }}
-                />
-                <span className="text-sm text-white">
-                  {token.name} ({token.symbol})
-                </span>
-              </div>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm font-medium " style={{ color: token.color }}>
+                {formatTokenName(token.name, token.symbol)}
+              </span>
+              <span className="text-sm font-medium text-muted-foreground">
                 {formatPercentage(token.percentage)}
               </span>
             </div>

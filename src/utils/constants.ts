@@ -11,14 +11,12 @@ export const MAX_PAGE_SIZE = 100;
 
 // Chart colors for donut chart
 export const CHART_COLORS = [
-  '#a9e851', // plena-lime
-  '#8b5cf6', // purple
-  '#06b6d4', // cyan
-  '#f59e0b', // amber
-  '#ef4444', // red
-  '#ec4899', // pink
-  '#3b82f6', // blue
-  '#10b981', // emerald
+  '#10B981', // Green
+  '#A78BFA', // Violet
+  '#60A5FA', // Blue
+  '#18C9DD', // Cyan
+  '#FB923C', // Orange
+  '#FB7185', // Red
 ];
 
 // Local storage keys
