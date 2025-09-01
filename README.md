@@ -184,11 +184,13 @@ Navigate to `http://localhost:5173`
 ![Desktop Image 3](/public/screenshots/image3.png)
 ![Desktop Image 4](/public/screenshots/image4.png)
 ![Desktop Image 5](/public/screenshots/image5.png)
+![Desktop Image 6](/public/screenshots/image6.png)
 
-![Mobile Image 1](/public/screenshots/image6.png)
-![Mobile Image 2](/public/screenshots/image7.png)
-![Mobile Image 3](/public/screenshots/image8.png)
-![Mobile Image 4](/public/screenshots/image9.png)
+![Mobile Image 7](/public/screenshots/image7.png)
+![Mobile Image 8](/public/screenshots/image8.png)
+![Mobile Image 9](/public/screenshots/image9.png)
+![Mobile Image 10](/public/screenshots/image10.png)
+![Mobile Image 11](/public/screenshots/image11.png)
 
 ## 📝 Notes
 

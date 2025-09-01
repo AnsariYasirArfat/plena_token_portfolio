@@ -35,9 +35,9 @@ const WatchlistTableContent: React.FC = () => {
   const startIndex = (pagination.page - 1) * pagination.perPage;
   const endIndex = startIndex + pagination.perPage;
   const paginatedTokens = tokens.slice(startIndex, endIndex);
+
   return (
     <div className="border border-white/8 rounded-lg overflow-x-auto mx-4 sm:mx-6">
-      
       <Table>
         <TableHeader className="bg-plena-component border-b !border-white/8">
           <TableRow className="hover:bg-plena-component">
@@ -67,7 +67,7 @@ const WatchlistTableContent: React.FC = () => {
             <TableRow>
               <TableCell
                 colSpan={7}
-                className="text-center py-8 text-plena-muted"
+                className="text-center py-16 bg-transparent hover:bg-plena-component text-plena-muted"
               >
                 No tokens in watchlist. Add some tokens to get started!
               </TableCell>
