@@ -75,9 +75,9 @@ const WatchlistTable: React.FC = () => {
   const paginatedTokens = tokens.slice(startIndex, endIndex);
 
   return (
-    <div className="flex flex-col gap-4 mx-4 sm:mx-6 mb-4 sm:mb-6">
+    <div className="flex flex-col gap-4  mb-4 sm:mb-6">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="flex items-center justify-between flex-wrap gap-4 mx-4 sm:mx-6">
         <div className="flex items-center space-x-2">
           <Star
             className="h-5 w-5 text-plena-lime"
@@ -107,9 +107,8 @@ const WatchlistTable: React.FC = () => {
         </div>
       </div>
 
-      <div className="border border-white/8 rounded-lg overflow-hidden">
+      <div className="border border-white/8 rounded-lg overflow-x-auto  mx-4 sm:mx-6">
         {/* Table */}
-        <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-plena-component border-b !border-white/8">
               <TableRow className="hover:bg-plena-component">
@@ -163,7 +162,6 @@ const WatchlistTable: React.FC = () => {
               />
             )}
           </Table>
-        </div>
       </div>
     </div>
   );

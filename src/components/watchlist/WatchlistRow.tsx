@@ -30,18 +30,16 @@ const WatchlistRow: React.FC<WatchlistRowProps> = ({
   onRemoveToken,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(token.holdings.toString());
+  const [editValue, setEditValue] = useState(
+    token.holdings ? token.holdings.toString() : ""
+  );
   const [hasError, setHasError] = useState(false);
 
   const handleSave = () => {
     const newHoldings = parseFloat(editValue);
 
+    // Allow zero holdings, only validate for negative values
     if (isNaN(newHoldings) || newHoldings < 0) {
-      setHasError(true);
-      return;
-    }
-
-    if (newHoldings === 0) {
       setHasError(true);
       return;
     }
@@ -127,7 +125,6 @@ const WatchlistRow: React.FC<WatchlistRowProps> = ({
               step="0.0001"
               min="0"
             />
-            {/* #A9E85133 */}
             <Button
               size="sm"
               variant={"plena"}

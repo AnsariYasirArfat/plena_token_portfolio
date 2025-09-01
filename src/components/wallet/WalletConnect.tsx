@@ -8,14 +8,13 @@ import PlenaWallet from "@/assets/svg/PlenaWallet";
 const WalletConnect: React.FC = () => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-
   if (isConnected && address) {
     return (
       <div className="flex items-center space-x-3">
-        <div className="flex items-center space-x-2 px-3 py-2 bg-plena-component rounded-lg">
+        <div className="flex items-center space-x-2 px-3 py-2 bg-plena-lime rounded-lg">
           <PlenaWallet />
 
-          <span className="text-sm font-medium text-plena-text">
+          <span className="text-sm font-medium text-plena-base">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
         </div>
@@ -23,7 +22,7 @@ const WalletConnect: React.FC = () => {
           variant="ghost"
           size="sm"
           onClick={() => disconnect()}
-          className="text-plena-text hover:text-plena-lime"
+          className="text-plena-text hover:text-plena-lime hover:bg-red-400"
         >
           <LogOut className="w-4 h-4" />
         </Button>
