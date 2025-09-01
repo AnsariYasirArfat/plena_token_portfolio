@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "@/store/hook";
 import { addTokens } from "@/store/slices/watchlistSlice";
+import { Star, Plus, Check } from "lucide-react";
 import {
   useGetTrendingTokensQuery,
   useSearchTokensQuery,
@@ -8,9 +9,9 @@ import {
 } from "@/store/slices/apiSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Star, Plus, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDebounce } from "@/hooks/useDebounce";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const normalizeToken = (token: TrendingToken | SearchToken): DisplayToken => {
   if ("item" in token) {
@@ -105,7 +106,7 @@ const AddTokenModal: React.FC = () => {
       </DialogTrigger>
 
       <DialogContent
-        className="bg-plena-base border border-white/8 rounded-lg w-full h-full max-w-xl max-h-[480px] p-0 overflow-hidden flex flex-col "
+        className="bg-plena-base border border-white/8 rounded-lg w-[95%] h-full max-w-[640px] max-h-[480px] p-0 overflow-hidden flex flex-col "
         showCloseButton={false}
       >
         {/* Search Input - No Header */}
@@ -136,23 +137,23 @@ const AddTokenModal: React.FC = () => {
                 : "No trending tokens available"}
             </div>
           ) : (
-            <div className="h-full overflow-y-auto">
+            <ScrollArea className="h-full rounded-md">
               {!debouncedSearch && (
                 <div className="text-sm font-medium text-plena-muted mb-4 sticky top-0 p-2 bg-plena-base">
                   Trending
                 </div>
               )}
 
-              <div className="space-y-2 pb-4">
+              <div className="space-y-2 pb-4 mr-2">
                 {displayTokens.map((token) => {
                   const isSelected = selectedTokenIds.includes(token.id);
                   return (
                     <div
                       key={token.id}
-                      className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-all duration-200 ${
+                      className={`flex items-center justify-between p-2  rounded-md cursor-pointer transition-all duration-200 ${
                         isSelected
                           ? "bg-plena-lime/10 "
-                          : "bg-transparent hover:bg-plena-base/50"
+                          : "bg-transparent hover:bg-plena-component"
                       }`}
                       onClick={() => handleTokenSelect(token.id)}
                     >
@@ -193,7 +194,11 @@ const AddTokenModal: React.FC = () => {
                   );
                 })}
               </div>
-            </div>
+              <ScrollBar
+                orientation="vertical"
+                thumbClassName="!bg-plena-component"
+              />
+            </ScrollArea>
           )}
         </div>
 
