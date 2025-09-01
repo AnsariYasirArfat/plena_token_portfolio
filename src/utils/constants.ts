@@ -19,11 +19,9 @@ export const CHART_COLORS = [
   '#FB7185', // Red
 ];
 
-// Local storage keys
 export const STORAGE_KEYS = {
   WATCHLIST: 'plena_watchlist',
   HOLDINGS: 'plena_holdings',
-  WALLET_CONNECTED: 'plena_wallet_connected',
 } as const;
 
 // Table columns

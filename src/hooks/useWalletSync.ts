@@ -1,17 +1,12 @@
 import { useEffect } from "react";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import { useAppDispatch } from "@/store/hook";
-import {
-  setWalletConnection,
-  disconnectWallet,
-} from "@/store/slices/walletSlice";
+import { setWalletConnection, disconnectWallet } from "@/store/slices/walletSlice";
 
-export const useWalletSync = () => {
+export function useWalletSync() {
   const dispatch = useAppDispatch();
-  const { address, isConnected, chainId } = useAccount();
-  const { data: balance } = useBalance({
-    address,
-  });
+  const { address, isConnected } = useAccount();
+  const chainId = useChainId();
 
   useEffect(() => {
     if (isConnected && address) {
@@ -19,12 +14,11 @@ export const useWalletSync = () => {
         setWalletConnection({
           isConnected: true,
           address,
-          chainId: chainId,
-          balance: balance?.formatted,
+          chainId,
         })
       );
     } else {
       dispatch(disconnectWallet());
     }
-  }, [isConnected, address, chainId, balance, dispatch]);
-};
+  }, [isConnected, address, chainId, dispatch]);
+}

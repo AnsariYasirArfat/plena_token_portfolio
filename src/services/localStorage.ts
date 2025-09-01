@@ -60,35 +60,6 @@ export const localStorageService = {
     },
   },
 
-  // Wallet operations
-  wallet: {
-    saveConnectionState: (isConnected: boolean): void => {
-      try {
-        localStorage.setItem(STORAGE_KEYS.WALLET_CONNECTED, JSON.stringify(isConnected));
-      } catch (error) {
-        console.error('Error saving wallet state to localStorage:', error);
-      }
-    },
-
-    loadConnectionState: (): boolean => {
-      try {
-        const data = localStorage.getItem(STORAGE_KEYS.WALLET_CONNECTED);
-        return data ? JSON.parse(data) : false;
-      } catch (error) {
-        console.error('Error loading wallet state from localStorage:', error);
-        return false;
-      }
-    },
-
-    clearConnectionState: (): void => {
-      try {
-        localStorage.removeItem(STORAGE_KEYS.WALLET_CONNECTED);
-      } catch (error) {
-        console.error('Error clearing wallet state from localStorage:', error);
-      }
-    },
-  },
-
   // Utility functions
   clearAll: (): void => {
     try {

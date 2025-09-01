@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Header from "./components/layout/Header";
 import PortfolioSummary from "./components/portfolio/PortfolioSummary";
-import WatchlistTable from "./components/watchlist/WatchlistTable";
+import Watchlist from "./components/watchlist/Watchlist";
 import { useAppDispatch, useAppSelector } from "./store/hook";
 import { updatePortfolio } from "./store/slices/portfolioSlice";
 import { useWalletSync } from "./hooks/useWalletSync";
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <PortfolioSummary />
         
         {/* Watchlist */}
-        <WatchlistTable />
+        <Watchlist />
       </main>
     </div>
   );

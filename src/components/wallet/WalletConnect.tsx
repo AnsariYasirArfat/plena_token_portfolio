@@ -4,16 +4,18 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import PlenaWallet from "@/assets/svg/PlenaWallet";
+import { useWalletSync } from "@/hooks/useWalletSync";
 
 const WalletConnect: React.FC = () => {
+  useWalletSync();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
+
   if (isConnected && address) {
     return (
-      <div className="flex items-center space-x-3">
+      <div className="flex flex-wrap gap-3 items-center ml-auto">
         <div className="flex items-center space-x-2 px-3 py-2 bg-plena-lime rounded-lg">
           <PlenaWallet />
-
           <span className="text-sm font-medium text-plena-base">
             {address.slice(0, 6)}...{address.slice(-4)}
           </span>
@@ -37,12 +39,9 @@ const WalletConnect: React.FC = () => {
           <div
             {...(!mounted && {
               "aria-hidden": true,
-              style: {
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              },
+              style: { opacity: 0, pointerEvents: "none", userSelect: "none" },
             })}
+            className="ml-auto"
           >
             {(() => {
               if (!mounted || !account || !chain) {
@@ -70,11 +69,11 @@ const WalletConnect: React.FC = () => {
               }
 
               return (
-                <div className="flex items-center space-x-3">
+                <div className="flex flex-wrap gap-3 items-center ">
                   <Button
                     variant="ghost"
                     onClick={openChainModal}
-                    className="text-plena-text hover:text-plena-lime"
+                    className="text-plena-text hover:text-plena-lime hover:bg-white/5"
                   >
                     {chain.hasIcon && (
                       <div
@@ -101,12 +100,19 @@ const WalletConnect: React.FC = () => {
 
                   <div className="flex items-center space-x-2 px-3 py-2 bg-plena-component rounded-lg">
                     <PlenaWallet />
-
                     <span className="text-sm font-medium text-plena-text">
                       {account.address.slice(0, 6)}...
                       {account.address.slice(-4)}
                     </span>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => disconnect()}
+                    className="text-plena-text hover:text-plena-lime hover:bg-red-400"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </Button>
                 </div>
               );
             })()}

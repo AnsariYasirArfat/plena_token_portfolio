@@ -4,7 +4,7 @@ import TokenLogo from "@/assets/svg/TokenLogo";
 
 const Header: React.FC = () => {
   return (
-    <header className="flex items-center justify-between p-4 sm:p-3">
+    <header className="flex items-center justify-between flex-wrap gap-2 p-4 sm:p-3">
       {/* Logo and Title */}
       <div className="flex items-center space-x-3">
         <TokenLogo />
